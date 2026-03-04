@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta charset="UTF-8">
+<title>Space Greenhouse Mission Control</title>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+
+body{
+margin:0;
+font-family:'Orbitron',sans-serif;
+color:white;
+background:#020412;
+overflow-x:hidden;
+}
+
+.project-info{
+margin-top:60px;
+padding:40px;
+background:#0f1631;
+text-align:center;
+border-top:1px solid #00eaff;
+}
+
+.project-info h2{
+color:#00eaff;
+}
+
+.project-info p{
+width:70%;
+margin:auto;
+line-height:1.6;
+margin-top:10px;
+}
+
+.team{
+margin-top:30px;
+}
+
+/* STAR BACKGROUND */
+
+body::before{
+content:"";
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:url("https://www.transparenttextures.com/patterns/stardust.png");
+opacity:0.3;
+z-index:-1;
+}
+
+/* HEADER */
+
+header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:20px;
+background:rgba(0,0,0,0.7);
+border-bottom:1px solid #00eaff;
+}
+
+.logo{
+display:flex;
+align-items:center;
+gap:10px;
+}
+
+.logo img{
+width:40px;
+}
+
+.title{
+color:#00eaff;
+font-size:20px;
+}
+
+/* DASHBOARD GRID */
+
+.dashboard{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:20px;
+padding:30px;
+}
+
+/* CARD */
+
+.card{
+background:#0f1631;
+border:1px solid #00eaff44;
+border-radius:10px;
+padding:20px;
+text-align:center;
+cursor:pointer;
+transition:0.3s;
+}
+
+.card:hover{
+transform:scale(1.05);
+box-shadow:0 0 20px #00eaff;
+}
+
+.icon{
+font-size:40px;
+}
+
+.value{
+font-size:28px;
+color:#7cffd4;
+}
+
+.desc{
+display:none;
+font-size:13px;
+margin-top:10px;
+color:#a5c8ff;
+}
+
+.card.active .desc{
+display:block;
+}
+
+/* CONTROL PANEL */
+
+.controls{
+text-align:center;
+margin:30px;
+}
+
+button{
+background:#091540;
+border:1px solid #00eaff;
+color:white;
+padding:12px 20px;
+margin:10px;
+border-radius:6px;
+cursor:pointer;
+font-family:'Orbitron';
+}
+
+button:hover{
+background:#00eaff;
+color:black;
+}
+
+/* STATUS BAR */
+
+.status{
+text-align:center;
+padding:15px;
+border-top:1px solid #00eaff;
+color:#00ff9c;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<div class="logo">
+<img src="https://upload.wikimedia.org/wikipedia/commons/e/e5/NASA_logo.svg">
+<div class="title">SPACE GREENHOUSE MISSION CONTROL</div>
+</div>
+
+<div>Telemetry Link: ACTIVE</div>
+
+</header>
+
+
+<div class="dashboard">
+
+<div class="card" onclick="toggleDesc(this)">
+<div class="icon">🌡</div>
+<h3>Temperature</h3>
+<div class="value" id="temp">26°C</div>
+<p class="desc">Maintains the thermal environment required for plant growth.</p>
+</div>
+
+<div class="card" onclick="toggleDesc(this)">
+<div class="icon">💧</div>
+<h3>Humidity</h3>
+<div class="value" id="humidity">65%</div>
+<p class="desc">Regulates air moisture for plant transpiration.</p>
+</div>
+
+<div class="card" onclick="toggleDesc(this)">
+<div class="icon">🌬</div>
+<h3>CO₂</h3>
+<div class="value" id="co2">420 ppm</div>
+<p class="desc">Carbon dioxide required for photosynthesis.</p>
+</div>
+
+<div class="card" onclick="toggleDesc(this)">
+<div class="icon">🌱</div>
+<h3>Soil Moisture</h3>
+<div class="value" id="soil">52%</div>
+<p class="desc">Ensures correct irrigation levels.</p>
+</div>
+
+<div class="card" onclick="toggleDesc(this)">
+<div class="icon">💡</div>
+<h3>Light</h3>
+<div class="value" id="light">780 lux</div>
+<p class="desc">Artificial sunlight for plant growth.</p>
+</div>
+
+<div class="card" onclick="toggleDesc(this)">
+<div class="icon">🫁</div>
+<h3>Oxygen Production</h3>
+<div class="value">OPTIMAL</div>
+<p class="desc">Estimated oxygen production from photosynthesis.</p>
+</div>
+
+</div>
+
+
+<div class="controls">
+
+<h2>Greenhouse Control Panel</h2>
+
+<button onclick="alert('Water Pump Activated')">Water Pump</button>
+<button onclick="alert('Cooling Fan Activated')">Cooling Fan</button>
+<button onclick="alert('Grow Lights Activated')">Grow Lights</button>
+
+</div>
+
+
+<div style="padding:30px">
+
+<canvas id="chart"></canvas>
+
+</div>
+
+
+<div class="status">
+
+Plant Health: STABLE • Oxygen Generation: NORMAL
+
+</div>
+
+
+<script>
+
+/* Toggle description */
+
+function toggleDesc(card){
+card.classList.toggle("active");
+}
+
+/* Chart */
+
+const ctx=document.getElementById("chart");
+
+new Chart(ctx,{
+type:"line",
+data:{
+labels:["10","20","30","40","50","60"],
+datasets:[{
+label:"Temperature Telemetry",
+data:[24,25,26,25,27,26],
+borderColor:"#00eaff",
+backgroundColor:"rgba(0,234,255,0.2)",
+tension:0.4
+}]
+},
+options:{
+plugins:{
+legend:{labels:{color:"white"}}
+},
+scales:{
+x:{ticks:{color:"white"}},
+y:{ticks:{color:"white"}}
+}
+}
+});
+
+/* Simulated sensor values */
+
+setInterval(()=>{
+
+document.getElementById("temp").innerText=(24+Math.random()*4).toFixed(1)+"°C";
+document.getElementById("humidity").innerText=(60+Math.random()*10).toFixed(0)+"%";
+document.getElementById("co2").innerText=(400+Math.random()*40).toFixed(0)+" ppm";
+document.getElementById("soil").innerText=(45+Math.random()*10).toFixed(0)+"%";
+document.getElementById("light").innerText=(700+Math.random()*200).toFixed(0)+" lux";
+
+},3000);
+
+
+</script>
+
+<section class="project-info">
+
+<h2>About This Project</h2>
+
+<p>
+The Smart Space Greenhouse Monitoring System is an IoT based solution
+that enables autonomous monitoring and control of plant growth
+conditions in extraterrestrial environments such as space stations,
+lunar bases, or Mars habitats.
+</p>
+
+<p>
+The system continuously monitors environmental parameters including
+temperature, humidity, carbon dioxide concentration, soil moisture
+and light intensity. Data is transmitted to a monitoring dashboard
+allowing astronauts or researchers to supervise plant health and
+optimize oxygen production through photosynthesis.
+</p>
+
+<div class="team">
+
+<img src="https://upload.wikimedia.org/wikipedia/commons/e/e5/NASA_logo.svg" width="70">
+
+<h3>Project Team</h3>
+
+<p><b>Team Name:</b> Space AgroTech</p>
+
+<p><b>Member 1:</b> Rahul Kumar</p>
+<p><b>Member 2:</b> Shwet Sanyal</p>
+
+<p><b>Institution:</b> Babasaheb Bhimrao Ambedkar University</p>
+
+</div>
+
+</section>
+
+</body>
+</html>

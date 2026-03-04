@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Space Greenhouse Mission</title>
+
+<style>
+
+body{
+margin:0;
+overflow:hidden;
+background:#000;
+font-family:Arial;
+color:white;
+text-align:center;
+}
+
+/* STAR BACKGROUND */
+
+.stars{
+position:absolute;
+width:100%;
+height:100%;
+background:url("https://www.transparenttextures.com/patterns/stardust.png");
+animation:moveStars 60s linear infinite;
+}
+
+@keyframes moveStars{
+from{background-position:0 0;}
+to{background-position:10000px 5000px;}
+}
+
+/* TITLE */
+
+.title{
+position:absolute;
+top:100px;
+width:100%;
+font-size:40px;
+color:#00eaff;
+}
+
+/* EARTH */
+
+.earth{
+position:absolute;
+top:40%;
+left:50%;
+transform:translate(-50%,-50%);
+width:180px;
+height:180px;
+border-radius:50%;
+background:url("https://upload.wikimedia.org/wikipedia/commons/9/97/The_Earth_seen_from_Apollo_17.jpg");
+background-size:cover;
+animation:rotateEarth 30s linear infinite;
+box-shadow:0 0 40px #00eaff;
+}
+
+@keyframes rotateEarth{
+from{transform:translate(-50%,-50%) rotate(0deg);}
+to{transform:translate(-50%,-50%) rotate(360deg);}
+}
+
+/* SATELLITE */
+
+.satellite{
+position:absolute;
+top:40%;
+left:50%;
+font-size:30px;
+animation:orbit 8s linear infinite;
+}
+
+@keyframes orbit{
+from{transform:rotate(0deg) translateX(140px) rotate(0deg);}
+to{transform:rotate(360deg) translateX(140px) rotate(-360deg);}
+}
+
+/* ROCKET */
+
+.rocket{
+position:absolute;
+bottom:40px;
+left:50%;
+transform:translateX(-50%);
+font-size:60px;
+animation:launch 6s ease-in forwards;
+}
+
+@keyframes launch{
+0%{bottom:40px}
+100%{bottom:120%}
+}
+
+/* LOADING BAR */
+
+.loading{
+position:absolute;
+bottom:120px;
+left:50%;
+transform:translateX(-50%);
+width:300px;
+height:12px;
+background:#222;
+border-radius:6px;
+overflow:hidden;
+}
+
+.bar{
+height:100%;
+width:0%;
+background:#00eaff;
+animation:load 6s forwards;
+}
+
+@keyframes load{
+0%{width:0}
+100%{width:100%}
+}
+
+/* STATUS TEXT */
+
+.status{
+position:absolute;
+bottom:90px;
+width:100%;
+color:#00ff9c;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="stars"></div>
+
+<h1 class="title">🌱 SPACE GREENHOUSE MISSION</h1>
+
+<div class="earth"></div>
+
+<div class="satellite">🛰</div>
+
+<div class="rocket">🚀</div>
+
+<div class="loading">
+<div class="bar"></div>
+</div>
+
+<div class="status">
+Initializing Mission Systems...
+</div>
+
+<script>
+
+/* After animation open dashboard */
+
+setTimeout(function(){
+window.location.href="dashboard.html";
+},6000);
+
+</script>
+
+</body>
+</html>
